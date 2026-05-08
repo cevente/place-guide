@@ -1,31 +1,39 @@
 # 👋 Welcome to The Angel Place — Sapphire (SM6225)
 
-Welcome to the official build guide repository for **Xiaomi Redmi Note 13 4G (Sapphire / SM6225)**.
+Welcome to the official bringup repository for **Xiaomi Redmi Note 13 4G (Sapphire / SM6225)**.
 
-This repository provides all the essential scripts and setup resources needed to initialize the device trees and HALs for building custom ROMs based on **AOSP / LineageOS**.
+This repository provides everything required to initialize the necessary **device trees** and **HALs** for building custom ROMs based on **AOSP / LineageOS**.
 
-Whether you're maintaining, testing, or building your own ROM, this repo aims to make setup faster and cleaner.
+This project supports **two setup methods**:
 
----
+* ⚡ Manual setup using scripts
+* 📄 Local manifest setup (recommended)
 
-# 📦 Repository Structure
-
-This repository includes separated setup scripts for better organization:
-
-* 🌳 **Device Trees**
-* ⚙️ **HALs (Hardware Abstraction Layer)**
-
-Keeping them separated makes updates easier and avoids unnecessary syncs.
+Choose the method that fits your workflow.
 
 ---
 
-# 🚀 Quick Start
+# ⚡ Quick Start (Manual Setup)
 
-Make sure you are inside the root of your source directory before executing them.
+This method is useful for:
+
+* Fast setup
+* Testing
+* Temporary build environments
+* Quick bringup
+
+Run:
+
+```bash
+bash trees.sh
+bash hals.sh
+```
+
+Make sure you are inside your ROM source root directory.
 
 ---
 
-# 🌳 Device Trees Setup (`trees.sh`)
+# 🌳 Device Trees Script (`trees.sh`)
 
 ```bash
 # Clone Device Trees for Sapphire
@@ -53,7 +61,7 @@ echo "============================"
 
 ---
 
-# ⚙️ HALs Setup (`hals.sh`)
+# ⚙️ HALs Script (`hals.sh`)
 
 ```bash
 # Clone HALs for SM6225
@@ -93,23 +101,160 @@ echo "============================"
 
 ---
 
-# 📌 Notes
+# 📄 Recommended Setup (Local Manifest)
 
-* This repository always tracks the **latest available stable branch** for each component.
-* If a repository does not provide `lineage-23.2`, the latest compatible branch is used.
+Local manifests are the recommended method for long-term maintenance.
+
+Benefits:
+
+* Cleaner source tree
+* Easier updates
+* Better repo sync integration
+* Better collaboration
+
+## Download local manifest directly
+
+```bash
+mkdir -p .repo/local_manifests
+
+curl -L https://raw.githubusercontent.com/The-Angel-Place-Sapphire/sapphire-bringup/main/local_manifest.xml \
+-o .repo/local_manifests/sapphire.xml
+```
+
+## Sync sources
+
+```bash
+repo sync -j$(nproc) --force-sync
+```
 
 ---
 
-# 💡 Recommendation
+# 📄 Local Manifest (`local_manifest.xml`)
 
-For long-term maintenance and cleaner syncing, using **local manifests** is recommended over manual clone scripts.
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
 
-However, these scripts are useful for:
+    <remote
+        name="theangelplace"
+        fetch="https://github.com/The-Angel-Place-Sapphire" />
 
-* Fast setup
-* Testing
-* Temporary builds
-* Development environments
+    <!-- Device Trees -->
+
+    <project
+        path="device/xiaomi/sapphire-kernel"
+        name="device_xiaomi_sapphire-kernel"
+        remote="theangelplace"
+        revision="lineage-23.2" />
+
+    <project
+        path="device/xiaomi/sepolicy"
+        name="device_xiaomi_sepolicy"
+        remote="theangelplace"
+        revision="16" />
+
+    <project
+        path="device/xiaomi/sapphire"
+        name="device_xiaomi_sapphire"
+        remote="theangelplace"
+        revision="lineage-23.2" />
+
+    <project
+        path="vendor/xiaomi/sapphire"
+        name="vendor_xiaomi_sapphire"
+        remote="theangelplace"
+        revision="lineage-23.2" />
+
+    <project
+        path="hardware/xiaomi"
+        name="android_hardware_xiaomi"
+        remote="theangelplace"
+        revision="lineage-23.2" />
+
+    <!-- HALs -->
+
+    <project
+        path="hardware/qcom-caf/common"
+        name="android_hardware_qcom-caf_common"
+        remote="theangelplace"
+        revision="lineage-23.2" />
+
+    <project
+        path="hardware/qcom-caf/sm6225/audio/agm"
+        name="vendor_qcom_opensource_agm"
+        remote="theangelplace"
+        revision="lineage-22.2-caf-sm6225" />
+
+    <project
+        path="hardware/qcom-caf/sm6225/audio/pal"
+        name="vendor_qcom_opensource_arpal-lx"
+        remote="theangelplace"
+        revision="lineage-22.0-caf-sm6225" />
+
+    <project
+        path="hardware/qcom-caf/sm6225/data-ipa-cfg-mgr"
+        name="vendor_qcom_opensource_data-ipa-cfg-mgr"
+        remote="theangelplace"
+        revision="lineage-22.0-caf-sm6225" />
+
+    <project
+        path="hardware/qcom-caf/sm6225/dataipa"
+        name="vendor_qcom_opensource_dataipa"
+        remote="theangelplace"
+        revision="lineage-22.0-caf-sm6225" />
+
+    <project
+        path="hardware/qcom-caf/sm6225/display"
+        name="hardware_qcom_display"
+        remote="theangelplace"
+        revision="lineage-22.0-caf-sm6225" />
+
+    <project
+        path="hardware/qcom-caf/sm6225/media"
+        name="hardware_qcom_media"
+        remote="theangelplace"
+        revision="lineage-22.0-caf-sm6225" />
+
+    <project
+        path="hardware/qcom-caf/sm6225/audio/primary-hal"
+        name="hardware_qcom_audio"
+        remote="theangelplace"
+        revision="lineage-22.0-caf-sm6225" />
+
+    <project
+        path="device/qcom/sepolicy_vndr/sm6225"
+        name="device_qcom_sepolicy_vndr"
+        remote="theangelplace"
+        revision="lineage-23.0-caf-sm6225" />
+
+</manifest>
+```
+
+---
+
+# 🤔 Which method should I use?
+
+Use **Manual Scripts** if:
+
+* You want quick setup
+* You are testing
+* You are doing temporary builds
+
+Use **Local Manifest** if:
+
+* You maintain ROM sources
+* You want easier updates
+* You work with a team
+* You want cleaner repo management
+
+---
+
+# 📌 Notes
+
+Excluded:
+
+* ❌ Signing keys
+* ❌ GApps
 
 ---
 
@@ -117,11 +262,11 @@ However, these scripts are useful for:
 
 Contributions, fixes, and improvements are welcome.
 
-Feel free to open issues or submit pull requests.
+Feel free to open issues or pull requests.
 
 ---
 
 # 👑 Maintained by
 
-**The Angel Place**
+**Angelpro09_Dev**
 Building Sapphire, one commit at a time.
