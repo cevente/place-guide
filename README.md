@@ -13,6 +13,69 @@ Choose the method that fits your workflow.
 
 ---
 
+# 📦 Main Repositories
+
+## 🌳 Device Tree
+
+```bash
+https://github.com/The-Angel-Place-Sapphire/device_xiaomi_sapphire
+```
+
+## 🌲 Kernel Tree
+
+```bash
+https://github.com/The-Angel-Place-Sapphire/device_xiaomi_sapphire-kernel
+```
+
+## 🔒 SEPolicy
+
+```bash
+https://github.com/The-Angel-Place-Sapphire/device_xiaomi_sepolicy
+```
+
+## 📦 Vendor Tree
+
+```bash
+https://github.com/The-Angel-Place-Sapphire/vendor_xiaomi_sapphire
+```
+
+## ⚙️ Xiaomi Hardware
+
+```bash
+https://github.com/The-Angel-Place-Sapphire/android_hardware_xiaomi
+```
+
+## 🔊 Dolby Hardware
+
+```bash
+https://github.com/The-Angel-Place-Sapphire/hardware_dolby
+```
+
+---
+
+# 🚀 Download Scripts Directly Into Your ROM Source
+
+Run this inside your ROM source root:
+
+```bash
+curl -L https://raw.githubusercontent.com/The-Angel-Place-Sapphire/sapphire-bringup/main/trees.sh \
+-o tools/sapphire/trees.sh
+
+curl -L https://raw.githubusercontent.com/The-Angel-Place-Sapphire/sapphire-bringup/main/hals.sh \
+-o tools/sapphire/hals.sh
+
+chmod +x trees.sh hals.sh
+```
+
+Run the scripts:
+
+```bash
+bash trees.sh
+bash hals.sh
+```
+
+---
+
 # ⚡ Quick Start (Manual Setup)
 
 This method is useful for:
@@ -22,12 +85,6 @@ This method is useful for:
 * Temporary build environments
 * Quick bringup
 
-Run:
-
-```bash
-bash trees.sh
-bash hals.sh
-```
 
 Make sure you are inside your ROM source root directory.
 
@@ -53,6 +110,9 @@ git clone --depth 1 -b lineage-23.2 https://github.com/The-Angel-Place-Sapphire/
 
 rm -rf hardware/xiaomi
 git clone --depth 1 -b lineage-23.2 https://github.com/The-Angel-Place-Sapphire/android_hardware_xiaomi.git hardware/xiaomi
+
+rm -rf hardware/dolby
+git clone --depth 1 -b lineage-23.2 https://github.com/The-Angel-Place-Sapphire/hardware_dolby.git hardware/dolby
 
 echo "============================"
 echo "Device Trees cloned successfully"
@@ -171,6 +231,12 @@ repo sync -j$(nproc) --force-sync
         remote="theangelplace"
         revision="lineage-23.2" />
 
+    <project
+        path="hardware/dolby"
+        name="hardware_dolby"
+        remote="theangelplace"
+        revision="lineage-23.2" />
+
     <!-- HALs -->
 
     <project
@@ -255,6 +321,13 @@ Excluded:
 
 * ❌ Signing keys
 * ❌ GApps
+
+Recommended:
+
+* Use `ccache`
+* Use SSD storage
+* Sync with `--force-sync` when switching branches
+* Keep trees and HALs updated regularly
 
 ---
 
