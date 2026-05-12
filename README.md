@@ -112,7 +112,7 @@ rm -rf hardware/xiaomi
 git clone --depth 1 -b lineage-23.2 https://github.com/The-Angel-Place-Sapphire/android_hardware_xiaomi.git hardware/xiaomi
 
 rm -rf hardware/dolby
-git clone --depth 1 -b lineage-23.2 https://github.com/The-Angel-Place-Sapphire/hardware_dolby.git hardware/dolby
+git clone --depth 1 https://github.com/The-Angel-Place-Sapphire/hardware_dolby.git hardware/dolby
 
 echo "============================"
 echo "Device Trees cloned successfully"
