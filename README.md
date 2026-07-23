@@ -113,6 +113,12 @@ git clone --depth 1 -b lineage-23.2 https://github.com/cevente/android_hardware_
 rm -rf hardware/dolby
 git clone --depth 1 https://github.com/cevente/hardware_dolby.git hardware/dolby
 
+rm -rf hardware/interfaces
+git clone --depth 1 -b lineage23-2 https://github.com/cevente/android_hardware_interfaces.git hardware/interfaces
+
+
+
+
 echo "============================"
 echo "Device Trees cloned successfully"
 echo "============================"
